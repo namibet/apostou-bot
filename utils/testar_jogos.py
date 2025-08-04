@@ -4,11 +4,25 @@ from playwright.sync_api import Page
 from utils.abrir_jogo_por_titulo import abrir_jogo_por_titulo
 from utils.testar_carregamento_jogo import testar_carregamento_jogo
 from utils.registrar_tempo import registrar_tempo
+from utils.voltar_home import voltar_home
 
 def testar_jogos(page: Page, jogos: list[dict], csv_nome: str, inicio_processo: float):
-    tempo_anterior = inicio_processo
-
+    tempo_anterior = time.time()
+    
     for jogo in jogos:
+
+        url_atual = page.url
+        tipo = jogo["tipo"]
+        # Ir para a página certa apenas se necessário
+        if tipo == "live" and "casino-live" not in url_atual:
+            page.goto("https://www.apostou.bet.br/casino-live")
+            page.wait_for_load_state("domcontentloaded")
+            time.sleep(7)
+        elif tipo == "casino" and "casino-live" in url_atual:
+            page.goto("https://www.apostou.bet.br")
+            page.wait_for_load_state("domcontentloaded")
+            time.sleep(7)
+
         if abrir_jogo_por_titulo(page, jogo["title"]):
             t_fim = testar_carregamento_jogo(
                 page=page,
@@ -19,12 +33,6 @@ def testar_jogos(page: Page, jogos: list[dict], csv_nome: str, inicio_processo: 
             )
         else:
             t_fim = time.time()
-            registrar_tempo(csv_nome, f"jogo_{jogo['slug']} (falha_click)",
-                            t_fim, tempo_anterior, inicio_processo)
-
+            registrar_tempo(csv_nome, f"🎰_{jogo['tipo']} > {jogo['provider']} > {jogo['title']} > ❌click", t_fim, tempo_anterior, inicio_processo)
         tempo_anterior = t_fim
-
-        print("Voltando para a home…")
-        page.goto("https://apostou.bet.br")
-        page.wait_for_load_state("domcontentloaded")
-        time.sleep(7)
+        voltar_home(page)

@@ -31,24 +31,11 @@ def testar_deposito_pix(page: Page, nome_csv: str, inicio_processo: float) -> fl
         page.locator("text=Código Pix válido até:").wait_for(timeout=10000)
 
         end = time.time()
-        registrar_tempo(nome_csv, "t_deposito", end, start, inicio_processo)
+        registrar_tempo(nome_csv, "💵_deposito", end, start, inicio_processo)
         print(f"✅ QR Code gerado em {end - start:.2f} segundos.\n")
-        
-        print("Voltando para a home...")
-        page.goto("https://apostou.bet.br")
-        page.wait_for_load_state("domcontentloaded")
-        time.sleep(10)
-
         return end
 
     except Exception as e:
         end = time.time()
-        registrar_tempo(nome_csv, "t_deposito (erro)", end, start, inicio_processo)
-        print(f"❌ Erro ao gerar QR Code do depósito: {e}\n")
-        
-        print("Voltando para a home...")
-        page.goto("https://apostou.bet.br")
-        page.wait_for_load_state("domcontentloaded")
-        time.sleep(5)
-
+        registrar_tempo(nome_csv, "💵_deposito ❌(erro)", end, start, inicio_processo)
         return end

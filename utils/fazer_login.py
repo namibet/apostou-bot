@@ -20,38 +20,41 @@ def fazer_login(page: Page, csv_nome: str, start_time: float) -> float:
     page.wait_for_load_state("domcontentloaded")
 
     t_home = time.time()
-    registrar_tempo(csv_nome, "carregamento_home", t_home, start_time, start_time)
+    registrar_tempo(csv_nome, "🏠_carregamento_home", t_home, start_time, start_time)
 
     # Confirma idade
     try:
         page.wait_for_selector("button.mat-flat-button:has-text('Sim')", timeout=8000)
         page.click("button.mat-flat-button:has-text('Sim')")
+        t_idade = time.time()
+        registrar_tempo(csv_nome, "🏠_popup_idade", t_idade, t_home, start_time)
     except:
+        t_idade = time.time()
+        registrar_tempo(csv_nome, "🏠_popup_idade ❌(erro)", t_idade, t_home, start_time)
         pass
-
-    t_idade = time.time()
-    registrar_tempo(csv_nome, "popup_idade", t_idade, t_home, start_time)
 
     # Aceita cookies
     try:
         page.click("button[data-cy='cookies-accept-button']:has-text('Aceitar todos')", timeout=5000)
+        t_cookies = time.time()
+        registrar_tempo(csv_nome, "🏠_aceite_cookies", t_cookies, t_idade, start_time)
     except:
+        t_cookies = time.time()
+        registrar_tempo(csv_nome, "🏠_aceite_cookies ❌(erro)", t_cookies, t_idade, start_time)
         pass
-
-    t_cookies = time.time()
-    registrar_tempo(csv_nome, "aceite_cookies", t_cookies, t_idade, start_time)
 
     # Clica no botão Entrar
     for _ in range(3):
         try:
             page.wait_for_selector("text=Entrar", timeout=5000)
             page.locator("text=Entrar").nth(0).click(force=True)
+            t_click_login = time.time()
+            registrar_tempo(csv_nome, "🏠_clique_login", t_click_login, t_cookies, start_time)
             break
         except:
+            t_click_login = time.time()
+            registrar_tempo(csv_nome, "🏠_clique_login ❌(erro)", t_click_login, t_cookies, start_time)
             time.sleep(1)
-
-    t_click_login = time.time()
-    registrar_tempo(csv_nome, "clique_login", t_click_login, t_cookies, start_time)
 
     # Preenche os campos e envia login
     try:
@@ -68,11 +71,13 @@ def fazer_login(page: Page, csv_nome: str, start_time: float) -> float:
         botao_entrar.wait_for(state="visible", timeout=8000)
         botao_entrar.hover()
         botao_entrar.click()
-    except:
-        pass
+        t_login = time.time()
+        registrar_tempo(csv_nome, "🏠_login_submetido", t_login, t_click_login, start_time)
 
-    t_login = time.time()
-    registrar_tempo(csv_nome, "login_submetido", t_login, t_click_login, start_time)
+    except:
+        t_login = time.time()
+        registrar_tempo(csv_nome, "🏠_login_submetido ❌(erro)", t_login, t_click_login, start_time)
+        pass
 
     try:
         page.wait_for_selector("div.deposit-button.deposit_button_themed", timeout=15000)

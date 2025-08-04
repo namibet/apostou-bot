@@ -19,14 +19,39 @@ from utils.registrar_tempo      import registrar_tempo
 from utils.fazer_login          import fazer_login
 from utils.testar_deposito_pix  import testar_deposito_pix
 from utils.testar_jogos         import testar_jogos
-from utils.slack_notifier       import enviar, CANAIS
-from utils.format_slack         import formatar_sucesso, formatar_erros
+from utils.voltar_home          import voltar_home
+from utils.reportar_slack       import reportar   # ← adicione no topo
 
 # ── Configurações ───────────────────────────────────────────────────────────
+
 JOGOS = [
-    {"title":"Aviator","slug":"aviator","tipo":"casino","wait_value":"BRL"},
-    {"title":"Master Joker","slug":"master_joker","tipo":"casino","wait_type":"network","wait_value":"gameService"},
+    # Pragmatic
+    {"provider": "pragmatic", "title": "Master Joker", "tipo": "casino", "wait_type": "network", "wait_value": "gameService"},
+    {"provider": "pragmatic", "title": "Tigre Sortudo", "tipo": "casino", "wait_type": "network", "wait_value": "gameService"},
+    {"provider": "pragmatic", "title": "Gates of Olympus", "tipo": "casino", "wait_type": "network", "wait_value": "gameService"},
+    {"provider": "pragmatic", "title": "Super 7s", "tipo": "casino", "wait_type": "network", "wait_value": "gameService"},
+
+    # Aviator Studio
+    {"provider": "aviator_studio", "title": "Aviator", "tipo": "casino", "wait_value": "BRL"},
+
+    # PG
+    {"provider": "pg", "title": "Dragon Hatch 2", "tipo": "casino", "wait_value": "Começar"},
+    {"provider": "pg", "title": "Fortune Rabbit", "tipo": "casino", "wait_value": "Começar"},
+    {"provider": "pg", "title": "Pinata Wins", "tipo": "casino", "wait_value": "Começar"},
+    {"provider": "pg", "title": "Fortune Tiger", "tipo": "casino", "wait_value": "Começar"},
+
+    # Platipus
+    {"provider": "platipus", "title": "Chilli Fiesta", "tipo": "casino", "wait_value": "Começar"},
+
+    # Cassino ao vivo
+    {"provider": "playtech", "title": "Roleta Brasileira", "tipo": "live", "wait_value": "Saldo"},
+    {"provider": "evolution", "title": "Lightning Dice", "tipo": "live","wait_type": "network", "wait_value": "lightningdice.json"},
+    {"provider": "pragmatic", "title": "Mega Roleta Brasileira", "tipo": "live", "wait_value": "SALDO"},
+    {"provider": "evolution", "title": "Brazillian Bac Bo", "tipo": "live","wait_type": "network", "wait_value": "bacbo.json"},
+    {"provider": "pragmatic", "title": "Brazilian ONE Blackjack", "tipo": "live", "wait_value": " Começar a Jogar "},
+    {"provider": "playtech", "title": "Baccarat", "tipo": "live", "wait_value": "SALDO"},
 ]
+
 
 
 # ── Função principal ────────────────────────────────────────────────────────
@@ -45,17 +70,20 @@ def main() -> None:
             geolocation={"latitude": -25.4284, "longitude": -49.2733},
             locale="pt-BR"
         )
-        page     = context.new_page()
+
+        inicio_processo = time.time()
+        page = context.new_page()
 
         # 1 ▪ Login -----------------------------------------------------------
         try:
             fazer_login(page, csv_nome, start_time)
         except Exception as e:
             erros["init"].append(str(e))
-
+                
         # 2 ▪ Depósito PIX ----------------------------------------------------
         try:
             testar_deposito_pix(page, csv_nome, start_time)
+            voltar_home(page)
         except Exception as e:
             erros["deposito"].append(str(e))
 
@@ -68,30 +96,7 @@ def main() -> None:
         print(f"\n✅ Fluxo concluído. Tempo total: {total - start_time:.2f}s")
         print(f"📊 Métricas salvas em: {csv_nome}")
 
-        # 5 ▪ Varre CSV em busca de linhas "jogo_xxx (erro)"
-        with open(csv_nome, encoding="utf-8") as f:
-            for row in f:
-                if "jogo_" in row and "(erro)" in row:
-                    slug = row.split(",")[0].replace("jogo_", "")
-                    erros["jogos"].append(slug)
-
-
-        # 6 ▪ Envio ao Slack --------------------------------------------------
-        
-        # a. Mensagem de sucesso (sempre)
-        #enviar(formatar_sucesso(csv_nome, JOGOS), "sucesso")
-
-        # b. Mensagens de erro (se houver)
-        #msg_init     = formatar_erros(csv_nome, "init",     JOGOS)
-        #msg_deposito = formatar_erros(csv_nome, "deposito", JOGOS)
-        #msg_jogos    = formatar_erros(csv_nome, "jogos",    JOGOS)
-
-        #if msg_init:
-        #    enviar(msg_init, "init")
-        #if msg_deposito:
-        #    enviar(msg_deposito, "deposito")
-        #if msg_jogos:
-        #    enviar(msg_jogos, "jogos")
+        reportar(csv_nome, inicio_processo)
 
         browser.close()
 

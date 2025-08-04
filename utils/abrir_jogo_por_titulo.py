@@ -11,7 +11,9 @@ def abrir_jogo_por_titulo(page, titulo_jogo):
     """
     imagens = page.locator(f'img[title="{titulo_jogo}"]')
     count = imagens.count()
-
+    
+    #print(f"[DEBUG] Encontradas {count} imagens com title='{titulo_jogo}'")
+    
     for i in range(count):
         try:
             imagem = imagens.nth(i)
