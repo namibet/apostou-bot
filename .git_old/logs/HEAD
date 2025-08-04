@@ -1,0 +1,22 @@
+0000000000000000000000000000000000000000 eee5dd88c1753888f39066fce67d4901d051457d claudio <claudio.namikata@ngx.bet> 1754236578 -0300	commit (initial): Primeiro commit
+eee5dd88c1753888f39066fce67d4901d051457d eee5dd88c1753888f39066fce67d4901d051457d claudio <claudio.namikata@ngx.bet> 1754236818 -0300	checkout: moving from master to main
+eee5dd88c1753888f39066fce67d4901d051457d eee5dd88c1753888f39066fce67d4901d051457d claudio <claudio.namikata@ngx.bet> 1754236944 -0300	checkout: moving from main to master
+eee5dd88c1753888f39066fce67d4901d051457d db298db97f9c90e3e2a94778d3a7e548e697543e claudio <claudio.namikata@ngx.bet> 1754236997 -0300	commit (amend): Primeiro commit
+0000000000000000000000000000000000000000 e938af5d842c42c3cab600d88c1853adb09ba651 claudio <claudio.namikata@ngx.bet> 1754237078 -0300	commit (initial): Upload limpo
+e938af5d842c42c3cab600d88c1853adb09ba651 c33b9043840c70415a3a26ff6d7d7d8564975a5a claudio <claudio.namikata@ngx.bet> 1754237391 -0300	commit: Remove .env do rastreamento
+c33b9043840c70415a3a26ff6d7d7d8564975a5a c33b9043840c70415a3a26ff6d7d7d8564975a5a claudio <claudio.namikata@ngx.bet> 1754237508 -0300	checkout: moving from clean to clean
+c33b9043840c70415a3a26ff6d7d7d8564975a5a 865919da622db9bcac43badd5de9dff589a61617 claudio <claudio.namikata@ngx.bet> 1754237508 -0300	rebase (start): checkout 865919da622db9bcac43badd5de9dff589a61617
+865919da622db9bcac43badd5de9dff589a61617 c33b9043840c70415a3a26ff6d7d7d8564975a5a claudio <claudio.namikata@ngx.bet> 1754237566 -0300	rebase (abort): returning to refs/heads/clean
+c33b9043840c70415a3a26ff6d7d7d8564975a5a 6681813884fb7aafa2e763e33ff24647c546b4be claudio <claudio.namikata@ngx.bet> 1754237570 -0300	rebase (start): checkout 6681813884fb7aafa2e763e33ff24647c546b4be
+6681813884fb7aafa2e763e33ff24647c546b4be db298db97f9c90e3e2a94778d3a7e548e697543e claudio <claudio.namikata@ngx.bet> 1754237728 -0300	reset: moving to db298db
+db298db97f9c90e3e2a94778d3a7e548e697543e 95acd994a04742b77fae03ab03832d205b54b562 claudio <claudio.namikata@ngx.bet> 1754237746 -0300	commit: Remove .env do rastreamento
+95acd994a04742b77fae03ab03832d205b54b562 db298db97f9c90e3e2a94778d3a7e548e697543e claudio <claudio.namikata@ngx.bet> 1754237999 -0300	reset: moving to HEAD~1
+db298db97f9c90e3e2a94778d3a7e548e697543e 5002655d04e31cfb8758a75b7f6a8501b47357c1 claudio <claudio.namikata@ngx.bet> 1754238095 -0300	commit: Commit limpo sem segredos
+5002655d04e31cfb8758a75b7f6a8501b47357c1 c33b9043840c70415a3a26ff6d7d7d8564975a5a claudio <claudio.namikata@ngx.bet> 1754238253 -0300	rebase (abort): returning to refs/heads/clean
+c33b9043840c70415a3a26ff6d7d7d8564975a5a 6681813884fb7aafa2e763e33ff24647c546b4be claudio <claudio.namikata@ngx.bet> 1754238302 -0300	reset: moving to 6681813
+6681813884fb7aafa2e763e33ff24647c546b4be e938af5d842c42c3cab600d88c1853adb09ba651 claudio <claudio.namikata@ngx.bet> 1754238446 -0300	reset: moving to e938af5
+e938af5d842c42c3cab600d88c1853adb09ba651 6681813884fb7aafa2e763e33ff24647c546b4be claudio <claudio.namikata@ngx.bet> 1754238479 -0300	reset: moving to 6681813
+6681813884fb7aafa2e763e33ff24647c546b4be db298db97f9c90e3e2a94778d3a7e548e697543e claudio <claudio.namikata@ngx.bet> 1754238509 -0300	reset: moving to db298db
+db298db97f9c90e3e2a94778d3a7e548e697543e 0000000000000000000000000000000000000000 Claudio Namikata <vamoo.la.email@gmail.com> 1754299873 -0300	Branch: renamed refs/heads/clean to refs/heads/main
+0000000000000000000000000000000000000000 db298db97f9c90e3e2a94778d3a7e548e697543e Claudio Namikata <vamoo.la.email@gmail.com> 1754299873 -0300	Branch: renamed refs/heads/clean to refs/heads/main
+db298db97f9c90e3e2a94778d3a7e548e697543e 871efa17ec9b14b59706439703cd93a575c3bb8d Claudio Namikata <vamoo.la.email@gmail.com> 1754299899 -0300	commit: primeiro commit do projeto apostou-bot
