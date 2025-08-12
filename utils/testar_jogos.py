@@ -14,11 +14,11 @@ def testar_jogos(page: Page, jogos: list[dict], csv_nome: str, inicio_processo: 
         url_atual = page.url
         tipo = jogo["tipo"]
         # Ir para a página certa apenas se necessário
-        if tipo == "live" and "casino-live" not in url_atual:
+        if tipo == "lv" and "casino-live" not in url_atual:
             page.goto("https://www.apostou.bet.br/casino-live")
             page.wait_for_load_state("domcontentloaded")
             time.sleep(7)
-        elif tipo == "casino" and "casino-live" in url_atual:
+        elif tipo == "cs" and "casino-live" in url_atual:
             page.goto("https://www.apostou.bet.br")
             page.wait_for_load_state("domcontentloaded")
             time.sleep(7)
