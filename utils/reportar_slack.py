@@ -44,7 +44,7 @@ def reportar(csv_path: str | Path, inicio_processo: float) -> None:
     duracao = round(fim - inicio_processo, 2)
 
     inicio_fmt = datetime.fromtimestamp(inicio_processo).strftime("%H:%M:%S")
-    fim_fmt    = datetime.fromtimestamp(fim).strftime("%H:%M:%S")
+    fim_fmt = datetime.fromtimestamp(fim).strftime("%H:%M:%S")
 
     timestamp_msg = f"_Início: {inicio_fmt} | Fim: {fim_fmt} | Duração: {duracao:.2f}s_"
 

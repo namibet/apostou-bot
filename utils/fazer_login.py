@@ -20,27 +20,27 @@ def fazer_login(page: Page, csv_nome: str, start_time: float) -> float:
     page.wait_for_load_state("domcontentloaded")
 
     t_home = time.time()
-    registrar_tempo(csv_nome, "🏠_carregamento_home", t_home, start_time, start_time)
+    registrar_tempo(csv_nome, "🏠_home", t_home, start_time, start_time)
 
     # Confirma idade
     try:
         page.wait_for_selector("button.mat-flat-button:has-text('Sim')", timeout=8000)
         page.click("button.mat-flat-button:has-text('Sim')")
         t_idade = time.time()
-        registrar_tempo(csv_nome, "🏠_popup_idade", t_idade, t_home, start_time)
+        registrar_tempo(csv_nome, "🏠_idade", t_idade, t_home, start_time)
     except:
         t_idade = time.time()
-        registrar_tempo(csv_nome, "🏠_popup_idade ❌(erro)", t_idade, t_home, start_time)
+        registrar_tempo(csv_nome, "🏠_idade ❌(erro)", t_idade, t_home, start_time)
         pass
 
     # Aceita cookies
     try:
         page.click("button[data-cy='cookies-accept-button']:has-text('Aceitar todos')", timeout=5000)
         t_cookies = time.time()
-        registrar_tempo(csv_nome, "🏠_aceite_cookies", t_cookies, t_idade, start_time)
+        registrar_tempo(csv_nome, "🏠_cookies", t_cookies, t_idade, start_time)
     except:
         t_cookies = time.time()
-        registrar_tempo(csv_nome, "🏠_aceite_cookies ❌(erro)", t_cookies, t_idade, start_time)
+        registrar_tempo(csv_nome, "🏠_cookies ❌(erro)", t_cookies, t_idade, start_time)
         pass
 
     # Clica no botão Entrar
@@ -49,11 +49,11 @@ def fazer_login(page: Page, csv_nome: str, start_time: float) -> float:
             page.wait_for_selector("text=Entrar", timeout=5000)
             page.locator("text=Entrar").nth(0).click(force=True)
             t_click_login = time.time()
-            registrar_tempo(csv_nome, "🏠_clique_login", t_click_login, t_cookies, start_time)
+            registrar_tempo(csv_nome, "🏠_login", t_click_login, t_cookies, start_time)
             break
         except:
             t_click_login = time.time()
-            registrar_tempo(csv_nome, "🏠_clique_login ❌(erro)", t_click_login, t_cookies, start_time)
+            registrar_tempo(csv_nome, "🏠_login ❌(erro)", t_click_login, t_cookies, start_time)
             time.sleep(1)
 
     # Preenche os campos e envia login
@@ -72,11 +72,11 @@ def fazer_login(page: Page, csv_nome: str, start_time: float) -> float:
         botao_entrar.hover()
         botao_entrar.click()
         t_login = time.time()
-        registrar_tempo(csv_nome, "🏠_login_submetido", t_login, t_click_login, start_time)
+        registrar_tempo(csv_nome, "🏠_submit", t_login, t_click_login, start_time)
 
     except:
         t_login = time.time()
-        registrar_tempo(csv_nome, "🏠_login_submetido ❌(erro)", t_login, t_click_login, start_time)
+        registrar_tempo(csv_nome, "🏠_submit ❌(erro)", t_login, t_click_login, start_time)
         pass
 
     try:

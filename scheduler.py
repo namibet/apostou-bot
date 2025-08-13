@@ -27,7 +27,7 @@ def analisar_resultados() -> tuple[int, int]:
     """
     try:
         # Encontra o CSV mais recente
-        csvs = glob.glob("metricas_login_*.csv")
+        csvs = glob.glob("metricas/metricas_login_*.csv")
         if not csvs:
             return 0, 0
             
