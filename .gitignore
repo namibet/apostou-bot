@@ -3,3 +3,6 @@ metricas/
 *.json
 __pycache__/
 *.pyc
+venv/
+cron.log
+log/

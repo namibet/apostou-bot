@@ -68,10 +68,33 @@ def main() -> None:
     # Dicionário que acumula falhas
     erros = {"init": [], "deposito": [], "jogos": []}
 
-    print("\n🟡 Iniciando Playwright...")
+    print("\n🟡 Iniciando Playwright com Chrome sem cache...")
     with sync_playwright() as p:
-        browser  = p.chromium.launch(headless=True)
-        context  = browser.new_context(
+        # Apenas argumentos para desabilitar cache
+        chrome_args = [
+            '--disable-application-cache',
+            '--disable-disk-cache',
+            '--disable-http-cache',
+            '--disable-memory-cache',
+            '--disk-cache-size=0'
+        ]
+        
+        # Usa Chrome se disponível, senão Chromium
+        chrome_path = '/usr/bin/google-chrome'
+        
+        if os.path.exists(chrome_path):
+            browser = p.chromium.launch(
+                headless=True,
+                executable_path=chrome_path,
+                args=chrome_args
+            )
+        else:
+            browser = p.chromium.launch(
+                headless=True,
+                args=chrome_args
+            )
+        
+        context = browser.new_context(
             permissions=["geolocation"],
             geolocation={"latitude": -25.4284, "longitude": -49.2733},
             locale="pt-BR"
@@ -79,6 +102,8 @@ def main() -> None:
 
         inicio_processo = time.time()
         page = context.new_page()
+        
+        # Cache já desabilitado via chrome_args, sem necessidade de interceptor
 
         # 1 ▪ Login -----------------------------------------------------------
         try:

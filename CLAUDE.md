@@ -56,20 +56,42 @@ playwright install chromium
 
 ### Running the Bot
 ```bash
-# Main execution
+# Main execution (single run)
 python main.py
+
+# Continuous execution with scheduler 
+python scheduler.py
 ```
 
 ### Environment Configuration
 Create a `.env` file with required credentials:
-```
+```bash
+# Platform credentials
 APOSTOU_USER=your_username
 APOSTOU_PASS=your_password
+
+# Slack integration
 SLACK_BOT_TOKEN=your_slack_bot_token
 BOT_SUCCESS=success_channel_id
 BOT_ERROR_INIT=init_error_channel_id  
 BOT_ERROR_DEPOSIT=deposit_error_channel_id
 BOT_ERROR_GAMES=games_error_channel_id
+
+# Google Sheets integration (optional)
+GOOGLE_SHEET_ID=your_google_sheet_id
+GOOGLE_CREDENTIALS_FILE=path/to/service-account.json
+
+# Scheduler configuration
+INTERVALO_MINUTOS=2  # Interval between executions (default: 2 minutes)
+```
+
+### Virtual Environment
+Always use the existing virtual environment:
+```bash
+# Activate virtual environment
+source venv/bin/activate  # Linux/Mac
+# or
+venv\Scripts\activate     # Windows
 ```
 
 ## Key Implementation Details
@@ -98,6 +120,22 @@ The bot switches between casino sections based on game type:
 - Uses formatted messages with emojis for visual distinction
 - Sends reports only when relevant events occur (non-empty categories)
 
+### Automated Scheduling
+The `scheduler.py` module provides continuous execution:
+- Runs `main.py` as isolated subprocess to prevent memory leaks
+- Configurable intervals via `INTERVALO_MINUTOS` environment variable
+- Analyzes CSV results after each execution to track success/failure rates
+- Provides real-time execution statistics and timing
+- Handles process timeouts (30 minutes) and error recovery
+
+### Google Sheets Integration
+Optional integration for metrics persistence:
+- Automatically creates worksheet columns based on executed tests
+- Records execution start/end timestamps and total process time
+- Stores timing data for all login, deposit, and game testing phases
+- Requires service account JSON credentials and sheet sharing permissions
+- See `GOOGLE_SHEETS_SETUP.md` for complete configuration instructions
+
 ## File Dependencies
 
 Key import relationships:
@@ -106,9 +144,25 @@ Key import relationships:
 - `utils/reportar_slack.py` → requires `slack_notifier.py` for API communication
 - All timing utilities → depend on `registrar_tempo.py`
 
+## Debugging and Monitoring
+
+### Log Files
+- **Runtime logs**: `/log/robo.log` - Contains execution logs and errors
+- **Cron logs**: `cron.log` - Scheduler execution history
+- **CSV metrics**: `/metricas/` - Timestamped execution results (e.g., `metricas_login_20250813_150529.csv`)
+
+### Game Configuration
+Games are defined in `main.py` with specific loading detection patterns:
+- **provider**: Game provider identifier (pgmt, pg, evol, ptech, avst, pltp)
+- **title**: Exact game name as it appears on the platform
+- **tipo**: "cs" for casino games, "lv" for live games
+- **wait_type**: "network" for network request detection, or omit for element visibility
+- **wait_value**: String to detect (network endpoint, button text, or UI element)
+
 ## Testing Considerations
 
 - The bot performs live testing on actual platform URLs
-- Network timing dependencies make results variable based on connection quality
+- Network timing dependencies make results variable based on connection quality  
 - Browser automation may trigger platform anti-bot measures
 - Ensure proper rate limiting between test runs to avoid IP restrictions
+- No formal unit testing framework is configured - the system relies on integration testing against live services

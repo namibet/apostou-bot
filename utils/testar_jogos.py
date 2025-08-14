@@ -17,7 +17,14 @@ def testar_jogos(page: Page, jogos: list[dict], csv_nome: str, inicio_processo: 
         if tipo == "lv" and "casino-live" not in url_atual:
             page.goto("https://www.apostou.bet.br/casino-live")
             page.wait_for_load_state("domcontentloaded")
-            time.sleep(7)
+            # Aguarda mais tempo para casino-live carregar completamente
+            time.sleep(15)
+            # Verifica se algum conteúdo de live casino carregou
+            try:
+                page.wait_for_selector("div, img, iframe, .game-item, [data-testid]", timeout=5000)
+            except:
+                print("⚠️  Casino-live pode não ter carregado completamente")
+                time.sleep(5)  # aguarda mais um pouco
         elif tipo == "cs" and "casino-live" in url_atual:
             page.goto("https://www.apostou.bet.br")
             page.wait_for_load_state("domcontentloaded")
